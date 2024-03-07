@@ -40,7 +40,7 @@ io.on('connection', (socket) => {
 });
 
 // GraphQL endpoint
-app.use('/graphql', verifyToken, graphqlHTTP({
+app.use('/graphql', graphqlHTTP({
     schema,
     graphiql: true, // Enable GraphQL web interface for testing
   }));
