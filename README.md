@@ -1,9 +1,9 @@
-# Chat App Backend Documentation
+## Chat App Backend Documentation
 
-## GraphQL API Documentation
 
-# Setup Instructions
-Prerequisites
+
+## Setup Instructions
+# Prerequisites
 Node.js installed
 MySQL database configured
 
@@ -11,38 +11,25 @@ MySQL database configured
 Clone the repository:
 ```console
 git clone https://github.com/BruceOnyango/chat-app-backend.git
-
-
 ```
 Install dependencies:
 ```console
 cd chat-app-backend
 npm install
-
-
-
 ```
 # Database Migrations
 Run the following command to apply database migrations:
 ```console
 npx sequelize-cli db:migrate
-
-
-
-
 ```
 # Start the Application
 Start the server with the following command:
 ```console
 node index.js
-
-
-
-
 ```
 
 
-# Usage Guidelines
+## Usage Guidelines
 # Authentication:
 
 Use the Authorization header with the format Bearer <token> for authenticated requests.
