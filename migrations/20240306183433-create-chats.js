@@ -12,12 +12,12 @@ module.exports = {
       sender: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true,
+        unique: false,
       },
       receiver: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true,
+        unique: false,
       },
       message: {
         type: Sequelize.STRING,

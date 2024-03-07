@@ -2,14 +2,17 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
-const ChatRoom = sequelize.define('chatrooms', {
+const ChatRoomMembers = sequelize.define('chatroommembers', {
     id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: DataTypes.INTEGER
       },
-      name: {
+      username: {
+        type: DataTypes.STRING
+      },
+      chatroomName: {
         type: DataTypes.STRING
       },
       createdAt: {
@@ -22,6 +25,6 @@ const ChatRoom = sequelize.define('chatrooms', {
       }
 });
 
-module.exports = ChatRoom;
+module.exports = ChatRoomMembers;
 
 

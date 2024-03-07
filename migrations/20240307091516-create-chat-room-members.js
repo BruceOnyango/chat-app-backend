@@ -2,24 +2,19 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('ChatMessages', {
+    await queryInterface.createTable('ChatRoomMembers', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      sender: {
+      username: {
         type: Sequelize.STRING
       },
-      
-      message: {
+      chatroomName: {
         type: Sequelize.STRING
       },
-      roomName: {
-        type: Sequelize.STRING
-      },
-      
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -31,6 +26,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('ChatMessages');
+    await queryInterface.dropTable('ChatRoomMembers');
   }
 };

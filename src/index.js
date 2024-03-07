@@ -28,9 +28,9 @@ io.on('connection', (socket) => {
   socket.on('chatMessage', (data) => {
     io.emit('chatMessage', data); // Broadcast to all connected clients
 
-    // Save the message to MySQL database
-    const { sender, message } = data;
-    Chat.create({ sender, message });
+        // Save the message to MySQL database
+      //  const { sender, message } = data;
+      //  Chat.create({ sender, message });
   });
 
   // Handle disconnection
