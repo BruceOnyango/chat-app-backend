@@ -2,22 +2,29 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Users', {
+    await queryInterface.createTable('chats', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      username: {
+      sender: {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true,
       },
-      password: {
+      receiver: {
         type: Sequelize.STRING,
         allowNull: false,
+        unique: true,
       },
+      message: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: false,
+      },
+     
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
@@ -30,6 +37,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Users');
+    await queryInterface.dropTable('chats');
   }
 };

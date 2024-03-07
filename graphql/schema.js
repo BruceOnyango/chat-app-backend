@@ -2,7 +2,7 @@
 const { GraphQLObjectType, GraphQLSchema, GraphQLString, GraphQLID } = require('graphql');
 const AuthService = require('../services/auth');
 const Chat = require('../models/Chat');
-//const { authenticate } = require('../middleware/authenticate');
+const User = require('../models/user');
 const  verifyToken  = require('../middleware/authenticate');
 
 const RootQuery = new GraphQLObjectType({
@@ -22,7 +22,16 @@ const UserType = new GraphQLObjectType({
   fields: () => ({
     id: { type: GraphQLID },
     username: { type: GraphQLString },
+    token: { type: GraphQLString },
     // Add other user fields as needed
+  }),
+});
+
+const AuthResponseType = new GraphQLObjectType({
+  name: 'AuthResponse',
+  fields: () => ({
+    user: { type: UserType },
+    token: { type: GraphQLString },
   }),
 });
 
@@ -34,16 +43,56 @@ const Mutation = new GraphQLObjectType({
       args: {
         sender: { type: GraphQLString },
         message: { type: GraphQLString },
+        receiver: {type: GraphQLString },
       },
-      resolve(parent, args, context) {
-       
+      resolve: async (parent, args, context) => {
+        const { authorization } = context.headers;
 
-        const { sender, message } = args;
-        return Chat.create({ sender, message }).then(() => 'Message posted successfully!');
+        if (!authorization || !authorization.startsWith('Bearer ')) {
+          throw new Error('Unauthorized: No token provided');
+        }
+
+        const token = authorization.split(' ')[1];
+
+        try {
+          // Verify the token and get the user
+          const authenticatedUser = await verifyToken(token);
+
+          
+
+          // Access the authenticated user directly
+          const { message ,receiver } = args;
+
+
+          const sender = authenticatedUser.username;
+
+          
+
+       
+         // console.log(receiver)
+          const userExists = await User.findOne({ where : { username:receiver } });
+         // console.log(userExists.username);
+
+          //can only send to available users only
+          if(userExists)
+          {
+            return Chat.create({ sender, message, receiver }).then(() => 'Message posted successfully!');
+          }
+         else {
+          // Throw an error when the user does not exist
+          throw new Error('User not found');
+        }
+          
+
+         
+        } catch (error) {
+          throw error; // Propagate the error if authentication fails
+        }
       },
+    
     },
     signUp: {
-      type: UserType,
+      type: AuthResponseType,
       args: {
         username: { type: GraphQLString },
         password: { type: GraphQLString },
@@ -53,7 +102,7 @@ const Mutation = new GraphQLObjectType({
       },
     },
     signIn: {
-      type: UserType,
+      type: AuthResponseType,
       args: {
         username: { type: GraphQLString },
         password: { type: GraphQLString },

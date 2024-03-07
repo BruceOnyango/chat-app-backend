@@ -1,27 +1,20 @@
 // middleware/authenticate.js
-
-require('dotenv').config({ path: '../.env' });
+require('dotenv').config();
 const jwt = require('jsonwebtoken');
-const secretKey  = process.env.JWT_SECRET // Replace with your actual secret key
 
-const verifyToken = (req, res, next) => {
-    //const authHeader = req.headers['authorization'];
-    const authHeader = req.headers && req.headers['authorization'];
+const secretKey = process.env.JWT_SECRET;
 
-    const token = authHeader && authHeader.split(' ')[1];
-  
-    if (!token) {
-      return res.status(401).json({ message: 'Unauthorized: No token provided' });
-    }
-  
+
+const verifyToken = (token) => {
+  return new Promise((resolve, reject) => {
     jwt.verify(token, secretKey, (err, user) => {
       if (err) {
-        return res.status(401).json({ message: 'Unauthorized: Invalid token' });
+        reject(new Error('Unauthorized: Invalid token'));
+      } else {
+        resolve(user);
       }
-  
-      req.user = user;
-      next();
     });
+  });
 };
 
 module.exports = verifyToken;
