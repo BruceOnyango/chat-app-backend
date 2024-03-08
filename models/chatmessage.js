@@ -32,6 +32,9 @@ const ChatMessages = sequelize.define('chatmessages', {
       }
 });
 
+//ChatMessages.belongsTo(User, { foreignKey: 'sender' });
+//ChatMessages.belongsTo(ChatRoom, { foreignKey: 'roomName' });
+
 module.exports = ChatMessages;
 
 

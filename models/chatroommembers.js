@@ -1,6 +1,7 @@
 
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
+const ChatMessages = require('../models/chatmessage'); 
 
 const ChatRoomMembers = sequelize.define('chatroommembers', {
     id: {
@@ -24,6 +25,10 @@ const ChatRoomMembers = sequelize.define('chatroommembers', {
         type: DataTypes.DATE
       }
 });
+
+// Define associations
+//ChatRoomMembers.hasMany(ChatMessages, { foreignKey: 'chatroomName' });
+//ChatMessages.belongsTo(ChatRoomMembers, { foreignKey: 'chatroomName' });
 
 module.exports = ChatRoomMembers;
 

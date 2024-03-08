@@ -145,7 +145,58 @@ class ChatService {
     }
 
    
+    async findMessage(sender) {
+        try{
+            const messages = await Chat.findAll({ where: { receiver: sender } })
 
+            return  messages ;
+
+        }catch(error)
+        {
+            throw error;
+        }
+    }
+
+    async findGroupMessage(sender) {
+        try{
+            const rooms = await ChatRoomMembers.findAll({ where: { username: sender } });
+            if(rooms.length > 0)
+            {
+
+            const groups = rooms.map((rooms) => { 
+                
+             const { chatroomName } = rooms.dataValues;
+                
+             return chatroomName;
+            });
+           
+            const messages = [];
+
+            for (const group of groups) {
+                
+
+                const message = await ChatMessages.findAll({ where : { roomName: group}})
+
+               // console.log(message)
+                messages.push(message)
+               
+          
+           
+
+            }
+            
+            const flattenedMessages = [].concat(...messages);
+           
+             return flattenedMessages;
+            }
+
+            return  'You belong to no groups' ;
+
+        }catch(error)
+        {
+            throw error;
+        }
+    }
 
 
 }

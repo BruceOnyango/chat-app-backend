@@ -12,6 +12,7 @@ const User = sequelize.define('User', {
     allowNull: false,
   },
 });
+//User.belongsToMany(ChatRoom, { through: 'UserChatRoom' });
 
 module.exports = User;
 
